@@ -21,8 +21,11 @@ public class FormServlet extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         String country = req.getParameter("country");
-        String[] languages = req.getParameterValues("languages");
+        String[] languagesProgramming = req.getParameterValues("languages");
         String[] roles = req.getParameterValues("roles");
+        String language = req.getParameter("language");
+        String enabled = req.getParameter("enabled");
+        String secret = req.getParameter("secret");
 
         resp.setContentType("text/html");
 
@@ -42,17 +45,22 @@ public class FormServlet extends HttpServlet {
             out.println("          <li>Email : " + email + "</li>");
             out.println("          <li>Country : " + country + "</li>");
 
-            out.print("          <li>Language(s): <ul>");
-            Arrays.asList(languages).forEach(language ->
-            out.println(                            "<li>" + language + "</li>"));
+            out.print("          <li>Language(s) Programming: <ul>");
+            Arrays.asList(languagesProgramming).forEach(lang ->
+            out.println(                            "<li>" + lang + "</li>"));
             out.print("                          </ul></li>");
 
             out.print("          <li>Language(s): <ul>");
             Arrays.asList(roles).forEach(role ->
-            out.println(                            "<li>" + role + "</li>"));
-            out.print("                          </ul></li>");
+            out.println(                             "<li>" + role + "</li>"));
+            out.print("                              </ul></li>");
 
-            out.println("       </ul>");
+            out.println("                        </ul>");
+
+            out.println("          <li>Language: " + language + "</li>");
+            out.println("          <li>Enabled: " + enabled + "</li>");
+            out.println("          <li>Secret: " + secret + "</li>");
+
             out.println("   </body>");
             out.println("</html>");
         }

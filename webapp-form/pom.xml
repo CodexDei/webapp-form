@@ -25,8 +25,8 @@
         </dependency>
     </dependencies>
     <build>
-<!--        Para que el .war tenga el nombre "webapp-form"-->
-        <finalName>webapp-form</finalName>
+<!--Para que el ".war" tenga el mismo nombre del proyecto"webapp-form"-->
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

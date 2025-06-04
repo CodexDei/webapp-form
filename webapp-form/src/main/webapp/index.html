@@ -39,7 +39,7 @@
     </div>
 
     <div>
-        <label for="languages">Languages:</label>
+        <label for="languages">Programming Languages:</label>
         <div>
             <select name="languages" id="languages" multiple required>
                 <option value="java">Java</option>
@@ -67,7 +67,33 @@
     </div>
 
     <div>
+        <label>Languages:</label>
+        <div>
+            <label for="language_sp">Spanish</label>
+            <input type="radio" id="language_sp" name="language" value="Sp">
+        </div>
+        <div>
+            <label for="language_en">English</label>
+            <input type="radio" id="language_en" name="language" value="En">
+        </div>
+        <div>
+            <label for="language_fr">French</label>
+            <input type="radio" id="language_fr" name="language" value="Fr">
+        </div>
+    </div>
+
+    <div>
+        <label for="enabled">Enabled:</label>
+        <div>
+            <input type="checkbox" id="enabled" name="enabled" checked>
+        </div>
+    </div>
+
+    <div>
         <input type="submit" value="Submit">
+    </div>
+    <div>
+        <input type="hidden" name="secret" value="1234567">
     </div>
 
 </form>
