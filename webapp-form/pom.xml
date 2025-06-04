@@ -25,6 +25,8 @@
         </dependency>
     </dependencies>
     <build>
+<!--        Para que el .war tenga el nombre "webapp-form"-->
+        <finalName>webapp-form</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
