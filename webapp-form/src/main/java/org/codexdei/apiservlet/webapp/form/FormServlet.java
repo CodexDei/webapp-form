@@ -8,9 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/registration")
 public class FormServlet extends HttpServlet {
@@ -28,58 +26,59 @@ public class FormServlet extends HttpServlet {
         String[] roles = req.getParameterValues("roles");
         String language = req.getParameter("language");
         boolean enabled = req.getParameter("enabled") != null &&
-                                                  req.getParameter("enabled").contains("on");
+                req.getParameter("enabled").contains("on");
         String secret = req.getParameter("secret");
         //Validacion que general de los campos anteriores
-        List<String> errors = new ArrayList<>();
+        Map<String,String> errors = new HashMap();
 
         //isBlank es mas completo que is.empty, porque cubre vacios y en blanco
         if (userName == null || userName.isBlank()) {
-            errors.add("Username cannnot be null or empty");
+            errors.put("username","Username cannnot be null or empty");
         }
         if (password == null || password.isBlank()) {
-            errors.add("Password cannnot be null or empty");
+            errors.put("password","Password cannnot be null or empty");
         }
         if (email == null || email.isBlank() || !email.contains("@")) {
-            errors.add("Email cannnot be null or empty and must include '@'");
+            errors.put("email","Email cannnot be null or empty and must include '@'");
         }
         if (country == null || country.isBlank()) {
-            errors.add("Username cannnot be null or empty");
+            errors.put("country","Username cannnot be null or empty");
         }
         if (languagesProgramming == null || languagesProgramming.length == 0) {
-            errors.add("Languages programming cannnot be null or empty");
+            errors.put("languagesProgramming","Languages programming cannnot be null or empty");
         }
         if (roles == null || roles.length == 0) {
-            errors.add("You must select at least one Rol");
+            errors.put("roles","You must select at least one Rol");
         }
         //Solo con null, ya que es un radio button, es decir, unica opcion
         //Por lo que no aplica vacio
         if (language == null) {
-            errors.add("You must select one language");
+            errors.put("language","You must select one language");
         }
 
-        try (PrintWriter out = resp.getWriter()) {
+        if (errors.isEmpty()) {
 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset=\"UTF-8\">");
-            out.println("       <title></title>");
-            out.println("   </head>");
-            out.println("   <body>");
-            out.println("       <h1></h1>");
-            out.println("   </body>");
-            out.println("</html>");
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset=\"UTF-8\">");
-            out.println("       <title>Result Form</title>");
-            out.println("   </head>");
-            out.println("   <body>");
-            out.println("     <h1>Result Form!</h1>");
+            try (PrintWriter out = resp.getWriter()) {
 
-            if (errors.isEmpty()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<meta charset=\"UTF-8\">");
+                out.println("       <title></title>");
+                out.println("   </head>");
+                out.println("   <body>");
+                out.println("       <h1></h1>");
+                out.println("   </body>");
+                out.println("</html>");
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<meta charset=\"UTF-8\">");
+                out.println("       <title>Result Form</title>");
+                out.println("   </head>");
+                out.println("   <body>");
+                out.println("     <h1>Result Form!</h1>");
+
                 out.println("     <ul>");
                 out.println("          <li>Username : " + userName + "</li>");
                 out.println("          <li>Password : " + password + "</li>");
@@ -100,17 +99,21 @@ public class FormServlet extends HttpServlet {
                 out.println("          <li>Language: " + language + "</li>");
                 out.println("          <li>Enabled: " + enabled + "</li>");
                 out.println("          <li>Secret: " + secret + "</li>");
-            } else {
-                errors.forEach(error -> {
-                    out.println("<li>" + error + "</li>");
-                });
-                out.println("<p><a href= \"/webapp-form/index.html\">Return form</a></p>");
+
+                out.println("      </ul>");
+
+                out.println("   </body>");
+                out.println("</html>");
+
             }
 
-            out.println("      </ul>");
-
-            out.println("   </body>");
-            out.println("</html>");
+        } else {
+//                errors.forEach(error -> {
+//                    out.println("<li>" + error + "</li>");
+//                });
+//                out.println("<p><a href= \"/webapp-form/index.jsp\">Return form</a></p>");
+            req.setAttribute("errors", errors);
+            getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
         }
     }
 }
